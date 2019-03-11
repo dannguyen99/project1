@@ -1,0 +1,1 @@
+postgres://pgiscwcaocvjse:0e4fe5bc827d17b4a8d4ea6e4540053a70d946a773f398def8892a18cd224e85@ec2-54-221-201-212.compute-1.amazonaws.com:5432/ddvo60rsa6691
