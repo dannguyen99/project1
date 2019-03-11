@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title> Login Interface</title>
+    <link rel="stylesheet" href="login.css">
+{% endblock %}
+
+{% block body %}
+    <div style="text-align:center";>
+        <h1>Please login or sign up</h1>
+        <p><input type="text" name="name" placeholder="Username"></p>
+        <p><input type="password" name="password" placeholder="Password"></p>
+        <button type="button" class="btn btn-primary">Login</button> or 
+        <button type="button" class="btn btn-success">Sign up</button>
+    </div>
+{% endblock %}
