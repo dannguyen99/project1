@@ -28,3 +28,8 @@ def login():
 @app.route("/signup")
 def signup():
     return render_template("signup.html")
+
+@app.route("/users")
+def users():
+    users = db.execute("SELECT * FROM users").fetchall()
+    return render_template("users.html", users = users)

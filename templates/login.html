@@ -2,15 +2,16 @@
 
 {% block heading %}
     <title> Login Interface</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 {% endblock %}
 
 {% block body %}
-    <div style="text-align:center";>
+    <div>
         <h1>Book Review</h1>
         <p><input type="text" name="name" placeholder="Username"></p>
         <p><input type="password" name="password" placeholder="Password"></p>
         <button type="button" class="btn btn-primary">Login</button> or 
         <a class = "btn btn-success"  href="{{ url_for('signup') }}">Sign up</a>
+        <p>or if you want, please <a href="{{ url_for('users') }}">view our users database</a></p>
     </div>
 {% endblock %}
