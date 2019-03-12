@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <title>Sign Up</title>
+{% endblock %}
+
+{% block body %}
+<div style="text-align:center";>
+    <h1>Book Review</h1>
+    <p><input type="text" name="name" placeholder="Username"></p>
+    <p><input type="password" name="password" placeholder="Password"></p> 
+    <button type="button" class="btn btn-success">Sign up</a></button>
+    <p>or if you have an account please <a href="{{ url_for('login') }}">Log in</a></p>
+</div>
+{% endblock %}
