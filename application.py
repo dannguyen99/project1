@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session,render_template
+from flask import Flask, session,render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -33,3 +33,20 @@ def signup():
 def users():
     users = db.execute("SELECT * FROM users").fetchall()
     return render_template("users.html", users = users)
+
+@app.route("/signing_up", methods = ["POST"])
+def signing_up():
+    name = request.form.get('name')
+    password = request.form.get('password')
+    db.execute("INSERT INTO users (username, password) VALUES (:name, :password)", {"name":name, "password":password})
+    db.commit()
+    return render_template("success.html")
+
+@app.route("/loging_in", methods = ["GET"])
+def loging_in():
+    name = request.form.get('name')
+    password  = request.form.get('password')
+    if db.execute("SELECT * FROM users WHERE username = ':name' AND password = ':password'",{"name": name, "password":password}).rowcount == 1:
+        return render_template("success.html")
+    else:
+        return render_template("signup.html")

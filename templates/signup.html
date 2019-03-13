@@ -7,9 +7,18 @@
 {% block body %}
 <div style="text-align:center";>
     <h1>Book Review</h1>
-    <p><input type="text" name="name" placeholder="Username"></p>
-    <p><input type="password" name="password" placeholder="Password"></p> 
-    <button type="button" class="btn btn-success">Sign up</a></button>
+    <form action="{{ url_for('signing_up') }}" method="POST">
+        
+        <div class = "form-group">
+            <p><input class = "form-control" type="text" name="name" placeholder="Username"></p>
+            <p><input class = "form-control" type="password" name="text" placeholder="Password"></p>    
+        </div>
+        
+        <div class = "form-group">
+            <button class="btn btn-success">Sign up</button> 
+        </div>
+    
+    </form>
     <p>or if you have an account please <a href="{{ url_for('login') }}">Log in</a></p>
 </div>
 {% endblock %}

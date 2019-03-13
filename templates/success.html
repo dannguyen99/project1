@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <title>Success</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Success!</h1>
+        <p>You have successfully create an account at my site, now you can <a href="{{ url_for('login') }}">Log in</a></p>
+    </div>
+
+
+{% endblock %}
