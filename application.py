@@ -69,8 +69,11 @@ def search():
 @app.route("/searching", methods = ["POST"])
 def searching():
     isbn = request.form.get("isbn")
+    title = request.form.get("title")
+    author = request.form.get("author")
+    year = request.form.get("year")
     if db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn}).rowcount == 0:
         return render_template("search.html", message = "There is no book with that infomation")
     else:
-        books = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn}).fetchall()
+        books = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn",{"isbn": isbn}).fetchall()
         return render_template("book.html", books = books)

@@ -2,19 +2,21 @@
 
 {% block heading %}
     <title>
-        {% for book in books %}
-            {{ book.title }}
-        {% endfor %}
+       Your results
     </title>
 {% endblock %}
 
 {% block body %}
     <div>
         {% for book in books %}
-        <p>ISBN: {{ book.isbn }}</p>
-        <p>Title: {{ book.title }}</p>
-        <p>Author: {{ book.author }}</p>
-        <p>Year: {{ book.year }}</p>
+
+        <ul>
+                <li> ISBN: {{ book.isbn }} </li>
+                <li> Title: {{ book.title }} </li>
+                <li>Author: {{ book.author }} </li>
+                <li>Year: {{ book.year }} </li>
+        </ul>
+
         {% endfor %}
     </div>
 {% endblock %}
