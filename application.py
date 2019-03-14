@@ -42,11 +42,11 @@ def signing_up():
     db.commit()
     return render_template("success.html")
 
-@app.route("/loging_in", methods = ["GET"])
+@app.route("/loging_in", methods = ["POST"])
 def loging_in():
     name = request.form.get('name')
     password  = request.form.get('password')
-    if db.execute("SELECT * FROM users WHERE username = ':name' AND password = ':password'",{"name": name, "password":password}).rowcount == 1:
+    if db.execute("SELECT * FROM users WHERE username = :name AND password = :password",{"name": name, "password":password}).rowcount == 1:
         return render_template("success.html")
     else:
-        return render_template("signup.html")
+        return str(db.execute("SELECT * FROM users WHERE username = ':name' AND password = ':password'",{"name": name, "password":password}).rowcount)
