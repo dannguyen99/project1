@@ -1,0 +1,30 @@
+{% extends "inner_layout.html" %}
+
+{% block heading %}
+    <title> Search for a book here</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <form action="{{ url_for('searching') }}" method="POST">
+
+        <div class = "form-group">
+            
+            <p><input class = "form-control" type="text" name="isbn" placeholder="Isbn"></p>
+            <p><input class = "form-control" type="text" name="title" placeholder="Title"></p>
+            <p><input class = "form-control" type="text" name="author" placeholder="Author"></p>
+            <p><input class = "form-control" type="number" name="year" placeholder="Year"></p>
+        
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-light">Search</button>
+        </div>
+        <p id="message">{{ message }}</p>
+    </form>
+    
+    <div>
+        <p>or if you want, please <a href="{{ url_for('books') }}">view all of our books</a></p>
+    </div>
+    
+{% endblock %}

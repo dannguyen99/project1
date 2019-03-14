@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <title>Books Table</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='users.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h2>All Books</h2>
+    <div>
+        <table>
+            <th>Isbn</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Owned by</th>
+            <th>Reviewed by</th>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.year }}</td>
+                <td>{{ book.owned_by }}</td>
+                <td>{{ book.reviewed_by }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

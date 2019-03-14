@@ -1,11 +1,22 @@
 div {
   text-align: center;
 }
+h1{
+  border-bottom: 50px;
+}
 form
 {
   width: 50%;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+}
+.form-group
+{
+  margin: auto;
+  width: 50%;
+}
+#message{
+  color: red;
 }
 /*# sourceMappingURL=login.css.map */

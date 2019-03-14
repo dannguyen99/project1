@@ -1,0 +1,20 @@
+{% extends "inner_layout.html" %}
+
+{% block heading %}
+    <title>
+        {% for book in books %}
+            {{ book.title }}
+        {% endfor %}
+    </title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% for book in books %}
+        <p>ISBN: {{ book.isbn }}</p>
+        <p>Title: {{ book.title }}</p>
+        <p>Author: {{ book.author }}</p>
+        <p>Year: {{ book.year }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

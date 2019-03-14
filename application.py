@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session,render_template, request
+from flask import Flask, session,render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -34,10 +34,21 @@ def users():
     users = db.execute("SELECT * FROM users").fetchall()
     return render_template("users.html", users = users)
 
+@app.route("/books")
+def books():
+    books = db.execute("SELECT * FROM books").fetchall()
+    return render_template("books.html", books = books)
+
 @app.route("/signing_up", methods = ["POST"])
 def signing_up():
     name = request.form.get('name')
     password = request.form.get('password')
+    if name == "" or password == "":
+        return render_template("signup.html", message = "Username and password can not be empty")
+    elif " " in name:
+        return render_template("signup.html", message = "Username can not contain space bar")
+    elif db.execute("SELECT * FROM users WHERE username = :name",{"name": name}).rowcount == 1:
+        return render_template("signup.html", message ="This username is not available")
     db.execute("INSERT INTO users (username, password) VALUES (:name, :password)", {"name":name, "password":password})
     db.commit()
     return render_template("success.html")
@@ -47,6 +58,19 @@ def loging_in():
     name = request.form.get('name')
     password  = request.form.get('password')
     if db.execute("SELECT * FROM users WHERE username = :name AND password = :password",{"name": name, "password":password}).rowcount == 1:
-        return render_template("success.html")
+        return redirect("/search")
     else:
-        return str(db.execute("SELECT * FROM users WHERE username = ':name' AND password = ':password'",{"name": name, "password":password}).rowcount)
+        return render_template("login.html", message = "Your username or password is incorrect!")
+
+@app.route("/search")
+def search():
+    return render_template("search.html")
+
+@app.route("/searching", methods = ["POST"])
+def searching():
+    isbn = request.form.get("isbn")
+    if db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn}).rowcount == 0:
+        return render_template("search.html", message = "There is no book with that infomation")
+    else:
+        books = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn}).fetchall()
+        return render_template("book.html", books = books)

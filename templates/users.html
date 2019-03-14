@@ -12,11 +12,15 @@
             <th>Id</th>
             <th>Username</th>
             <th>Password</th>
+            <th>Book Owned</th>
+            <th>Book Reviewed</th>
             {% for user in users %}
             <tr>
                 <td>{{ user.id}}</td>
                 <td>{{user.username}}</td>
                 <td>{{user.password}}</td>
+                <td>{{user.book_owned}}</td>
+                <td>{{user.book_reviewed}}</td>
             </tr>
             {% endfor %}
         </table>
