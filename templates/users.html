@@ -8,12 +8,12 @@
 {% block body %}
     <h2>All Users</h2>
     <div>
-        <table>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Book Owned</th>
-            <th>Book Reviewed</th>
+        <table class = "table table-bordered table-hover table-dark">
+            <th scope = "col">Id</th>
+            <th scope = "col">Username</th>
+            <th scope = "col">Password</th>
+            <th scope = "col">Book Owned</th>
+            <th scope = "col">Book Reviewed</th>
             {% for user in users %}
             <tr>
                 <td>{{ user.id}}</td>

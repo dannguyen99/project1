@@ -8,13 +8,13 @@
 {% block body %}
     <h2>All Books</h2>
     <div>
-        <table>
-            <th>Isbn</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year</th>
-            <th>Owned by</th>
-            <th>Reviewed by</th>
+        <table class = "table table-bordered table-hover table-dark ">
+            <th scope = "col">Isbn</th>
+            <th scope = "col">Title</th>
+            <th scope = "col">Author</th>
+            <th scope = "col">Year</th>
+            <th scope = "col">Owned by</th>
+            <th scope = "col">Reviewed by</th>
             {% for book in books %}
             <tr>
                 <td>{{ book.isbn }}</td>

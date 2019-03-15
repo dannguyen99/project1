@@ -68,12 +68,20 @@ def search():
 
 @app.route("/searching", methods = ["POST"])
 def searching():
-    isbn = request.form.get("isbn")
-    title = request.form.get("title")
-    author = request.form.get("author")
-    year = request.form.get("year")
-    if db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn}).rowcount == 0:
+    isbn =  "%"+ request.form.get("isbn") + "%"
+    title = "%"+ request.form.get("title") + "%"
+    author = "%"+ request.form.get("author") + "%"
+
+    try:
+        year = int(request.form.get("year"))
+        books = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn AND title LIKE :title AND author LIKE :author AND year = :year" ,{"isbn": isbn, "title": title, "author":author,"year":year}).fetchall()
+    except ValueError:
+        books = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn AND title LIKE :title AND author LIKE :author",{"isbn": isbn, "title": title, "author":author}).fetchall()
+    if len(books) == 0:
         return render_template("search.html", message = "There is no book with that infomation")
     else:
-        books = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn",{"isbn": isbn}).fetchall()
-        return render_template("book.html", books = books)
+        return render_template("books.html", books = books)
+
+@app.route("/book/<string:name>")
+def book_info(name):
+    return f"Hello, {name}!"
