@@ -1,22 +1,30 @@
 {% extends "inner_layout.html" %}
 
 {% block heading %}
-    <title>
-       Your results
+    <title>            
+        {% for book in books %}
+            {{ book.title }}
+        {% endfor %}
     </title>
+    <style>
+        .custom_div{
+            margin-right: 10%;
+            margin-left: 10%;
+            border: black;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 
 {% block body %}
-    <div>
+    <div class = custom_div>
         {% for book in books %}
-
-        <ul>
-                <li> ISBN: {{ book.isbn }} </li>
-                <li> Title: {{ book.title }} </li>
-                <li>Author: {{ book.author }} </li>
-                <li>Year: {{ book.year }} </li>
-        </ul>
-
+        <h1 class="display-4">{{ book.title }}</h1>
+        <p class="lead">Author: {{ book.author }}</p>
+        <hr class="my-4">
+        <p>Isbn: {{ book.isbn }}</p>
+        <p>Year: {{ book.year }}</p>
         {% endfor %}
     </div>
+
 {% endblock %}

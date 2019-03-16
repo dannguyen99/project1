@@ -1,12 +1,12 @@
-{% extends "layout.html" %}
+{% extends "inner_layout.html" %}
 
 {% block heading %}
     <title>Books Table</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='users.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 
 {% block body %}
-    <h2>All Books</h2>
+    <h2 style="text-align:center">All Books</h2>
     <div>
         <table class = "table table-bordered table-hover table-dark ">
             <th scope = "col">Isbn</th>
@@ -17,7 +17,7 @@
             <th scope = "col">Reviewed by</th>
             {% for book in books %}
             <tr>
-                <td>{{ book.isbn }}</td>
+                <td><a href="{{ url_for('books') }}/{{ book.title }}">{{ book.isbn }}</a></td>
                 <td><a href="{{ url_for('books') }}/{{ book.title }}">{{ book.title }}</a></td>
                 <td>{{ book.author }}</td>
                 <td>{{ book.year }}</td>

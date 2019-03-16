@@ -4,7 +4,6 @@ from flask import Flask, session,render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-
 app = Flask(__name__)
 
 # Check for environment variable
@@ -58,13 +57,18 @@ def loging_in():
     name = request.form.get('name')
     password  = request.form.get('password')
     if db.execute("SELECT * FROM users WHERE username = :name AND password = :password",{"name": name, "password":password}).rowcount == 1:
+        session["logged_in"] = True
+        session["username"] = name
         return redirect("/search")
     else:
         return render_template("login.html", message = "Your username or password is incorrect!")
 
 @app.route("/search")
 def search():
-    return render_template("search.html")
+    if not session.get("logged_in"):
+        return redirect("/")
+    else:
+        return render_template("search.html")
 
 @app.route("/searching", methods = ["POST"])
 def searching():
@@ -80,7 +84,7 @@ def searching():
     if len(books) == 0:
         return render_template("search.html", message = "There is no book with that infomation")
     else:
-        return render_template("books.html", books = books)
+        return render_template("search_result.html", books = books)
 
 @app.route("/books/<string:title>")
 def book_info(title):
