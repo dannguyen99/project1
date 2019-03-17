@@ -20,7 +20,7 @@
 {% block body %}
     <h2 style="text-align:center">Search Result</h2>
         {% for book in books %}
-    <a href="{{ url_for('books') }}/{{ book.title }}" class="custom-card">
+    <a href="{{ url_for('books') }}/{{ book.isbn }}" class="custom-card">
         <div class = "col-sm-12">
         <div class="card" style="width:auto" >
             <div class="card-body">

@@ -86,7 +86,8 @@ def searching():
     else:
         return render_template("search_result.html", books = books)
 
-@app.route("/books/<string:title>")
-def book_info(title):
-    books = db.execute("SELECT * FROM books WHERE title = :title",{"title":title}).fetchall()
-    return render_template("book.html", books = books)
+@app.route("/books/<string:isbn>")
+def book_info(isbn):
+    books = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchall()
+    reviews = db.execute("SELECT * FROM reviews WHERE isbn = :isbn",{"isbn":isbn}).fetchall()
+    return render_template("book.html", books = books, reviews = reviews)
