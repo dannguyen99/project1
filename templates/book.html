@@ -20,6 +20,18 @@
         <p>Isbn: {{ book.isbn }}</p>
         <p>Year: {{ book.year }}</p>
         {% endfor %}
+        <p>Average rating: 
+            {% if avg[0] is not none %}
+                {%for j in range(avg[0]|round|int) %}
+                <span class="fa fa-star checked"></span>
+                {% endfor %}
+            {% endif %}
+        </p>
+        <hr class="my-4">
+        <h4> Good reads </h4>
+        <p>Work rating count: {{ data[0] }}</p>
+        <p>Work reviews count: {{ data[2] }} </p>
+        <p>Average rating: {{ data[1] }} </p>
     </div>
 
     <h2 id="comments-section"> Comments on the book</h2>
@@ -55,10 +67,10 @@
                     <div class = "form-group">
                         <textarea class = "form-control" type="text" name="comment" placeholder="Leave a comment" rows = "5"></textarea>
                     </div>
-                
                     <div class = "form-group">
                             <button class="btn btn-success">Submit</button>
                     </div>
+                    <a class = "btn btn-danger" href="{{ url_for('delete_comment') }}">Delete your comment</a>
                 </form>
             </div>
     </div>    

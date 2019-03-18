@@ -1,6 +1,6 @@
 import os
-
-from flask import Flask, session,render_template, request, redirect
+import requests
+from flask import Flask, session,render_template, request, redirect, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -78,12 +78,23 @@ def loging_in():
 def submit_comment():
     username = session.get("username")
     comment = request.form.get("comment")
-    rate = int(request.form.get("star"))
+    try:
+        rate = int(request.form.get("star"))
+    except TypeError:
+        rate = 0
     isbn = session.get("current_book")
     if db.execute("SELECT * FROM reviews WHERE username = :username AND isbn = :isbn",{"username":username, "isbn":isbn}).rowcount != 0:
         db.execute("UPDATE reviews SET review = :review, rate = :rate WHERE username = :username AND isbn = :isbn",{"review":comment,"rate":rate, "username":username, "isbn":isbn})
     else:
         db.execute("INSERT INTO reviews (isbn, username, review, rate) VALUES (:isbn, :username, :comment, :rate)", {"isbn":isbn, "username":username, "comment":comment, "rate":rate})
+    db.commit()
+    return redirect("/books/" + isbn)
+
+@app.route("/delete_comment")
+def delete_comment():
+    username = session.get("username")
+    isbn = session.get("current_book")
+    db.execute("DELETE FROM reviews WHERE isbn = :isbn AND username = :username",{"isbn":isbn, "username":username})
     db.commit()
     return redirect("/books/" + isbn)
 
@@ -114,7 +125,25 @@ def searching():
 def book_info(isbn):
     if not session.get("logged_in"):
         return redirect("/")
+    avg = db.execute("SELECT AVG(rate) FROM reviews WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
     books = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchall()
     reviews = db.execute("SELECT * FROM reviews WHERE isbn = :isbn",{"isbn":isbn}).fetchall()
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "rgEjlEK9fLm8COoGxoYBQ", "isbns": isbn})
+    goodreads = res.json()['books'][0]
+    data = [goodreads['work_ratings_count'], goodreads['average_rating'], goodreads['work_reviews_count']]
     session["current_book"] = isbn
-    return render_template("book.html", books = books, reviews = reviews)
+    return render_template("book.html", books = books, reviews = reviews, avg = avg, data = data)
+
+@app.route("/api/<string:isbn>")
+def api(isbn):
+    book_data = db.execute("SELECT * FROM books WHERE isbn=:isbn",{'isbn':isbn}).fetchone()
+    title = book_data['title']
+    author = book_data['author']
+    year = book_data['year']
+    isbn = isbn
+    review_count = db.execute("SELECT COUNT(*) FROM reviews WHERE isbn=:isbn",{'isbn':isbn}).fetchone()[0]
+    average_score = db.execute("SELECT AVG(reviews.rate) FROM reviews WHERE isbn=:isbn",{'isbn':isbn}).fetchone()[0]
+    average_score = round(float(average_score),2)
+    dic = {"title": title, "author":author, "year": year,"isbn":isbn, "review_count":review_count, "average_score": average_score }
+    print(dic)
+    return jsonify(dic)
