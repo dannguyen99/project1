@@ -24,6 +24,12 @@ db = scoped_session(sessionmaker(bind=engine))
 def login():
     return render_template("login.html")
 
+@app.route("/signout")
+def signout():
+    session["logged_in"] = False
+    session["username"] = None
+    session["isbn"] = None
+    return redirect("/")
 @app.route("/signup")
 def signup():
     return render_template("signup.html")
@@ -37,6 +43,11 @@ def users():
 def books():
     books = db.execute("SELECT * FROM books").fetchall()
     return render_template("books.html", books = books)
+
+@app.route("/reviews")
+def reviews():
+    reviews = db.execute("SELECT * FROM reviews").fetchall()
+    return render_template("reviews.html", reviews = reviews)
 
 @app.route("/signing_up", methods = ["POST"])
 def signing_up():
@@ -63,6 +74,19 @@ def loging_in():
     else:
         return render_template("login.html", message = "Your username or password is incorrect!")
 
+@app.route("/submit_comment", methods = ["POST"])
+def submit_comment():
+    username = session.get("username")
+    comment = request.form.get("comment")
+    rate = int(request.form.get("star"))
+    isbn = session.get("current_book")
+    if db.execute("SELECT * FROM reviews WHERE username = :username AND isbn = :isbn",{"username":username, "isbn":isbn}).rowcount != 0:
+        db.execute("UPDATE reviews SET review = :review, rate = :rate WHERE username = :username AND isbn = :isbn",{"review":comment,"rate":rate, "username":username, "isbn":isbn})
+    else:
+        db.execute("INSERT INTO reviews (isbn, username, review, rate) VALUES (:isbn, :username, :comment, :rate)", {"isbn":isbn, "username":username, "comment":comment, "rate":rate})
+    db.commit()
+    return redirect("/books/" + isbn)
+
 @app.route("/search")
 def search():
     if not session.get("logged_in"):
@@ -88,6 +112,9 @@ def searching():
 
 @app.route("/books/<string:isbn>")
 def book_info(isbn):
+    if not session.get("logged_in"):
+        return redirect("/")
     books = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchall()
     reviews = db.execute("SELECT * FROM reviews WHERE isbn = :isbn",{"isbn":isbn}).fetchall()
+    session["current_book"] = isbn
     return render_template("book.html", books = books, reviews = reviews)

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <title>Reviews Table</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='users.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h2>All Reviews</h2>
+    <div>
+        <table class = "table table-bordered table-hover table-dark">
+            <th scope = "col">Isbn</th>
+            <th scope = "col">Username</th>
+            <th scope = "col">Review</th>
+            <th scope = "col">Rate</th>
+            {% for review in reviews %}
+            <tr>
+                <td>{{ review.isbn }}</td>
+                <td>{{ review.username }}</td>
+                <td>{{ review.review }}</td>
+                <td>{{ review.rate }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
