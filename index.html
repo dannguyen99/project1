@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>How long until I die?</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('#form').onsubmit = function() {
+                    const name = document.querySelector('#name').value;
+                    // this.style.visibility = 0;
+                    document.querySelector('#user').innerHTML = name;
+                    this.style.visibility = 0;
+                    return false;
+                };
+            });
+        </script>
+    </head>
+    <body>
+        <form id="form" style = "text-align: center; margin:20%">
+            <input class = "form-control form-control-lg" id="name" autofocus placeholder="Name" type="text" style = "margin: 20px">
+            <input type="submit" class = "btn btn-info">
+        </form>
+        <h1 id= "user" style = "text-align: center">Hey</h1>
+    </body>
+</html>
