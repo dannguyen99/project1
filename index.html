@@ -27,7 +27,7 @@
                         document.querySelector('#user').innerHTML = counter;
                     }
                     else
-                        document.querySelector('#user').innerHTML = "You dead";
+                        document.querySelector('#user').innerHTML = "You dead!";
                     
                 }
                 function wait(){
@@ -37,11 +37,12 @@
         </script>
     </head>
     <body>
-        <form id="form" style = "text-align: center; margin:20%">
+        <img src="doctor.jpg" alt="doctor" style="margin-left:25%;margin-right:25%", width="50%">
+        <form id="form" style = "text-align: center; margin:20%;margin-top: 20px;">
             <input class = "form-control form-control-lg" id="name" autofocus placeholder="Name" type="text" style = "margin: 20px">
             <input type="submit" class = "btn btn-info">
         </form>
-        <h1 id= "user" style = "text-align: center; margin: 10%" class="display-1"></h1>
+        <h1 id= "user" style = "text-align: center; margin: 10%; margin-top:20px; margin-bottom: 20px;" class="display-1"></h1>
         <h1 class="display-4" style = "display: none; text-align: center;text-decoration: underline">10 what?</h1>
     </body>
 </html>
