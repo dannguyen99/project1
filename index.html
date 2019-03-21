@@ -6,12 +6,33 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector('#form').onsubmit = function() {
-                    const name = document.querySelector('#name').value;
-                    // this.style.visibility = 0;
-                    document.querySelector('#user').innerHTML = name;
-                    this.style.visibility = 0;
+                    var name = document.querySelector('#name').value;
+                    var display = name + ", you will die in 10"
+                    this.style.display = "none";
+                    document.querySelector('#user').innerHTML = display;
+                    setTimeout(wait, 1000);
+                    
+                    // document.querySelector('#name').style.visibility = false;
+                    // document.querySelector('#submit').style.visibility = false;
                     return false;
                 };
+                document.querySelector('.display-4').onclick = function() {
+                        setInterval(count, 1000);
+                        document.querySelector('.display-4').style.display = 'none';
+                };
+                let counter = 10;
+                function count(){   
+                    if (counter > 0){
+                        counter --;
+                        document.querySelector('#user').innerHTML = counter;
+                    }
+                    else
+                        document.querySelector('#user').innerHTML = "You dead";
+                    
+                }
+                function wait(){
+                    document.querySelector('.display-4').style.display = 'block';
+                }
             });
         </script>
     </head>
@@ -20,6 +41,7 @@
             <input class = "form-control form-control-lg" id="name" autofocus placeholder="Name" type="text" style = "margin: 20px">
             <input type="submit" class = "btn btn-info">
         </form>
-        <h1 id= "user" style = "text-align: center">Hey</h1>
+        <h1 id= "user" style = "text-align: center; margin: 10%" class="display-1"></h1>
+        <h1 class="display-4" style = "display: none; text-align: center;text-decoration: underline">10 what?</h1>
     </body>
 </html>
